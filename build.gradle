@@ -1,0 +1,17 @@
+apply from: "${rootDir}/gradle/tasks/Bootstrap.gradle"
+
+buildscript {
+    apply from: "${rootDir}/gradle/versions.gradle"
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    // Dependencies for gradle tasks for better integration with IDE
+    dependencies {
+        // GenerateJooq & Bootstrap
+        classpath "org.yaml:snakeyaml:${versions.snakeyaml}"
+        // GenerateJooq
+        classpath "org.jooq:jooq-codegen:${versions.jooq}"
+    }
+}

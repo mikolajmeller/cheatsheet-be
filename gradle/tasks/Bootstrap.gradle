@@ -1,0 +1,70 @@
+import groovy.text.*;
+import org.yaml.snakeyaml.Yaml
+
+buildscript {
+    apply from: "${rootDir}/gradle/versions.gradle"
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.yaml:snakeyaml:${versions.snakeyaml}"
+    }
+}
+
+class Bootstrap extends DefaultTask {
+    String rootDir = getProject().getRootDir()
+
+    @TaskAction
+    void generate() {
+        File bootstrapFile = new File("${rootDir}/bootstrap.yml")
+        new Yaml().loadAll(bootstrapFile.newInputStream())
+                .each { properties ->
+                    Set<String> keys = properties.keySet()
+                    keys.forEach { key ->
+                        Map propertyMap = properties.get(key)
+                        if (key == 'env') {
+                            generateEnvFile(propertyMap)
+                        } else {
+                            propertyMap.put('serviceName', key)
+                            generateServiceConfig(key, propertyMap)
+                            generateDatabaseScripts(key, propertyMap)
+                        }
+                    }
+                }
+    }
+
+    void generateDatabaseScripts(String serviceName, Map config) {
+        File templateFile = new File("${rootDir}/database/initServiceDatabase-template.sql")
+        File outputFile = new File("${rootDir}/database/init/${serviceName}.sql")
+        new SimpleTemplateEngine()
+                .createTemplate(templateFile)
+                .make(config)
+                .writeTo(outputFile.newWriter())
+    }
+
+    void generateServiceConfig(String serviceName, Map config) {
+        File templateFile = new File("${rootDir}/${serviceName}/src/main/resources/application-template.yml")
+        File outputFile = new File("${rootDir}/${serviceName}/src/main/resources/application.yml")
+        new SimpleTemplateEngine()
+                .createTemplate(templateFile)
+                .make(config)
+                .writeTo(outputFile.newWriter())
+    }
+
+    void generateEnvFile(Map config) {
+        File templateFile = new File("${rootDir}/.env-template")
+        File outputFile = new File("${rootDir}/.env")
+        new SimpleTemplateEngine()
+                .createTemplate(templateFile)
+                .make(config)
+                .writeTo(outputFile.newWriter())
+    }
+}
+
+task bootstrap(type: Bootstrap) {
+    group 'tools'
+    description 'Bootstrap project'
+}

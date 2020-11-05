@@ -1,0 +1,9 @@
+# Don't track this files because they store private data
+*/src/main/resources/application.yml
+.env
+bootstrap.yml
+database/init
+
+.gradle
+.idea
+*/build

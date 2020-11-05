@@ -1,0 +1,19 @@
+apply plugin: 'application'
+apply plugin: 'java'
+apply from: "${rootDir}/gradle/versions.gradle"
+apply from: "${rootDir}/gradle/tasks/GenerateDockerfile.gradle"
+apply from: "${rootDir}/gradle/tasks/GenerateJooq.gradle"
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+    options.compilerArgs.add('-parameters')
+}
+
+run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
+
+repositories {
+    mavenCentral()
+}

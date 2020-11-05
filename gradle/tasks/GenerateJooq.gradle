@@ -1,0 +1,63 @@
+/**
+ * https://www.jooq.org/doc/latest/manual/code-generation/codegen-configuration/
+ * To generate Jooq classes open 3306 port in docker container
+ * and change url configuration to connect via 127.0.0.1 (localhost)
+ */
+import org.yaml.snakeyaml.Yaml
+import org.jooq.codegen.GenerationTool
+import org.jooq.meta.jaxb.*
+
+buildscript {
+	apply from: "${rootDir}/gradle/versions.gradle"
+
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath "org.jooq:jooq-codegen:${versions.jooq}"
+		classpath "org.mariadb.jdbc:mariadb-java-client:${versions.mariadbJavaClient}"
+		classpath "org.yaml:snakeyaml:${versions.snakeyaml}"
+	}
+}
+
+class GenerateJooq extends DefaultTask {
+	@TaskAction
+	void generate() {
+		String dbName = project.getName();
+		def databaseConfig = getDatabaseConfig(dbName)
+		GenerationTool.generate(new Configuration()
+				.withJdbc(new Jdbc()
+						.withDriver(databaseConfig.driverClassName)
+						.withUrl(databaseConfig.url)
+						.withUser(databaseConfig.username)
+						.withPassword(databaseConfig.password))
+				.withGenerator(new Generator()
+						.withGenerate()
+						.withDatabase(new Database()
+							.withName("org.jooq.meta.mariadb.MariaDBDatabase")
+							.withIncludes("${dbName}.*"))
+						.withTarget(new Target()
+								.withPackageName("${dbName}.jooq.generated")
+								.withDirectory("${project.projectDir}/src/main/java"))))
+	}
+
+	Map<String, String> getDatabaseConfig(String dbName) {
+		File file = new File("${project.projectDir}/src/main/resources/application.yml")
+		Iterable configs = new Yaml().loadAll(file.newInputStream())
+		Iterator it = configs.iterator()
+		while (it.hasNext()) {
+			def config = it.next()
+			if (config.containsKey('datasources')) {
+				return (Map)config.get('datasources')[dbName]
+			}
+		}
+		throw new Exception("database config not found")
+	}
+}
+
+task generateJooq(type: GenerateJooq) {
+	group 'tools'
+	description 'Generate Jooq classes'
+}

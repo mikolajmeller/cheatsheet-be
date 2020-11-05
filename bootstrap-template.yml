@@ -1,0 +1,7 @@
+---
+env:
+  MYSQL_ROOT_PASSWORD: {}
+---
+article:
+  dbUser: {}
+  dbPassword: {}

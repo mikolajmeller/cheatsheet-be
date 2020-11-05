@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+  article:
+    container_name: article
+    networks:
+      cheatsheet:
+    build:
+      context: .
+      dockerfile: article/Dockerfile
+    ports:
+      - '8080:8080'
+  cheatsheet_db:
+    container_name: cheatsheet_db
+    image: library/mariadb:10.5
+    networks:
+      cheatsheet:
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./database/init:/docker-entrypoint-initdb.d/:ro
+      - ./database/config:/etc/mysql/conf.d/:ro
+      - cheatsheet-storage:/var/lib/mysql
+#    This `ports` are only for development to generate Jooq code and use intellij DB plugin
+    ports:
+      - '3306:3306'
+networks:
+  cheatsheet:
+volumes:
+  cheatsheet-storage:
