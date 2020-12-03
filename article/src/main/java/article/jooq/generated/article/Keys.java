@@ -5,9 +5,13 @@ package article.jooq.generated.article;
 
 
 import article.jooq.generated.article.tables.Articles;
+import article.jooq.generated.article.tables.Categories;
 import article.jooq.generated.article.tables.Databasechangeloglock;
+import article.jooq.generated.article.tables.Keywords;
 import article.jooq.generated.article.tables.records.ArticlesRecord;
+import article.jooq.generated.article.tables.records.CategoriesRecord;
 import article.jooq.generated.article.tables.records.DatabasechangeloglockRecord;
+import article.jooq.generated.article.tables.records.KeywordsRecord;
 
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
@@ -27,5 +31,10 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<ArticlesRecord> KEY_ARTICLES_PRIMARY = Internal.createUniqueKey(Articles.ARTICLES, DSL.name("KEY_articles_PRIMARY"), new TableField[] { Articles.ARTICLES.ID }, true);
+    public static final UniqueKey<ArticlesRecord> KEY_ARTICLES_TITLE = Internal.createUniqueKey(Articles.ARTICLES, DSL.name("KEY_articles_title"), new TableField[] { Articles.ARTICLES.TITLE }, true);
+    public static final UniqueKey<CategoriesRecord> KEY_CATEGORIES_NAME = Internal.createUniqueKey(Categories.CATEGORIES, DSL.name("KEY_categories_name"), new TableField[] { Categories.CATEGORIES.NAME }, true);
+    public static final UniqueKey<CategoriesRecord> KEY_CATEGORIES_PRIMARY = Internal.createUniqueKey(Categories.CATEGORIES, DSL.name("KEY_categories_PRIMARY"), new TableField[] { Categories.CATEGORIES.ID }, true);
     public static final UniqueKey<DatabasechangeloglockRecord> KEY_DATABASECHANGELOGLOCK_PRIMARY = Internal.createUniqueKey(Databasechangeloglock.DATABASECHANGELOGLOCK, DSL.name("KEY_DATABASECHANGELOGLOCK_PRIMARY"), new TableField[] { Databasechangeloglock.DATABASECHANGELOGLOCK.ID }, true);
+    public static final UniqueKey<KeywordsRecord> KEY_KEYWORDS_NAME = Internal.createUniqueKey(Keywords.KEYWORDS, DSL.name("KEY_keywords_name"), new TableField[] { Keywords.KEYWORDS.NAME }, true);
+    public static final UniqueKey<KeywordsRecord> KEY_KEYWORDS_PRIMARY = Internal.createUniqueKey(Keywords.KEYWORDS, DSL.name("KEY_keywords_PRIMARY"), new TableField[] { Keywords.KEYWORDS.ID }, true);
 }

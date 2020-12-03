@@ -1,0 +1,4 @@
+FROM openjdk:11-jre
+WORKDIR /app
+ADD ./${serviceName}/build/install /app
+ENTRYPOINT /app/${serviceName}/bin/${serviceName}

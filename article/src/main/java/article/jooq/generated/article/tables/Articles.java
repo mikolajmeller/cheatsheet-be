@@ -19,7 +19,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row4;
+import org.jooq.Row5;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -57,6 +57,11 @@ public class Articles extends TableImpl<ArticlesRecord> {
     public final TableField<ArticlesRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
+     * The column <code>article.articles.category_id</code>.
+     */
+    public final TableField<ArticlesRecord, Integer> CATEGORY_ID = createField(DSL.name("category_id"), SQLDataType.INTEGER.nullable(false), this, "");
+
+    /**
      * The column <code>article.articles.title</code>.
      */
     public final TableField<ArticlesRecord, String> TITLE = createField(DSL.name("title"), SQLDataType.VARCHAR(255).nullable(false), this, "");
@@ -67,9 +72,9 @@ public class Articles extends TableImpl<ArticlesRecord> {
     public final TableField<ArticlesRecord, String> CONTENT = createField(DSL.name("content"), SQLDataType.CLOB.defaultValue(DSL.field("NULL", SQLDataType.CLOB)), this, "");
 
     /**
-     * The column <code>article.articles.updated</code>.
+     * The column <code>article.articles.created</code>.
      */
-    public final TableField<ArticlesRecord, LocalDateTime> UPDATED = createField(DSL.name("updated"), SQLDataType.LOCALDATETIME(0).defaultValue(DSL.field("current_timestamp()", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<ArticlesRecord, LocalDateTime> CREATED = createField(DSL.name("created"), SQLDataType.LOCALDATETIME(0).defaultValue(DSL.field("current_timestamp()", SQLDataType.LOCALDATETIME)), this, "");
 
     private Articles(Name alias, Table<ArticlesRecord> aliased) {
         this(alias, aliased, null);
@@ -111,7 +116,7 @@ public class Articles extends TableImpl<ArticlesRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.ARTICLES_IDX__ARTICLE__TITLE);
+        return Arrays.<Index>asList(Indexes.ARTICLES_ARTICLES__CATEGORY_ID);
     }
 
     @Override
@@ -126,7 +131,7 @@ public class Articles extends TableImpl<ArticlesRecord> {
 
     @Override
     public List<UniqueKey<ArticlesRecord>> getKeys() {
-        return Arrays.<UniqueKey<ArticlesRecord>>asList(Keys.KEY_ARTICLES_PRIMARY);
+        return Arrays.<UniqueKey<ArticlesRecord>>asList(Keys.KEY_ARTICLES_PRIMARY, Keys.KEY_ARTICLES_TITLE);
     }
 
     @Override
@@ -156,11 +161,11 @@ public class Articles extends TableImpl<ArticlesRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row5 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Integer, String, String, LocalDateTime> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row5<Integer, Integer, String, String, LocalDateTime> fieldsRow() {
+        return (Row5) super.fieldsRow();
     }
 }

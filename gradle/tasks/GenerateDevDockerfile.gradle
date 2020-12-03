@@ -1,0 +1,21 @@
+import groovy.text.*;
+
+class GenerateDevDockerfile extends DefaultTask {
+    @TaskAction
+    void generate() {
+        File outputFile = new File("Dockerfile")
+        File template = new File("${project.getRootProject().rootDir}/gradle/tasks/templates/DevDockerfile")
+        Map properties = [
+                'serviceName': project.getName()
+        ]
+        SimpleTemplateEngine engine = new SimpleTemplateEngine()
+        engine.createTemplate(template)
+                .make(properties)
+                .writeTo(outputFile.newWriter())
+    }
+}
+
+task generateDevDockerfile(type: GenerateDevDockerfile) {
+    group 'tools'
+    description 'Generate Dev Dockerfile'
+}

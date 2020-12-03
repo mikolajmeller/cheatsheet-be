@@ -4,6 +4,7 @@ services:
     container_name: article
     networks:
       cheatsheet:
+    restart: on-failure
     build:
       context: .
       dockerfile: article/Dockerfile
@@ -26,5 +27,6 @@ services:
       - '3306:3306'
 networks:
   cheatsheet:
+    name: cheatsheet
 volumes:
   cheatsheet-storage:

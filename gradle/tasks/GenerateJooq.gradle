@@ -25,16 +25,18 @@ buildscript {
 class GenerateJooq extends DefaultTask {
 	@TaskAction
 	void generate() {
-		String dbName = project.getName();
+		def dbName = project.getName()
 		def databaseConfig = getDatabaseConfig(dbName)
+
+		def databaseUrl = "jdbc:mariadb://127.0.0.1:3306/${dbName}"
 		GenerationTool.generate(new Configuration()
 				.withJdbc(new Jdbc()
 						.withDriver(databaseConfig.driverClassName)
-						.withUrl(databaseConfig.url)
+						.withUrl(databaseUrl)
 						.withUser(databaseConfig.username)
 						.withPassword(databaseConfig.password))
 				.withGenerator(new Generator()
-						.withGenerate()
+						.withGenerate(new Generate())
 						.withDatabase(new Database()
 							.withName("org.jooq.meta.mariadb.MariaDBDatabase")
 							.withIncludes("${dbName}.*"))

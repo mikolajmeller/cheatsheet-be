@@ -6,8 +6,10 @@ package article.jooq.generated.article;
 
 import article.jooq.generated.DefaultCatalog;
 import article.jooq.generated.article.tables.Articles;
+import article.jooq.generated.article.tables.Categories;
 import article.jooq.generated.article.tables.Databasechangelog;
 import article.jooq.generated.article.tables.Databasechangeloglock;
+import article.jooq.generated.article.tables.Keywords;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +38,11 @@ public class Article extends SchemaImpl {
     public final Articles ARTICLES = Articles.ARTICLES;
 
     /**
+     * The table <code>article.categories</code>.
+     */
+    public final Categories CATEGORIES = Categories.CATEGORIES;
+
+    /**
      * The table <code>article.DATABASECHANGELOG</code>.
      */
     public final Databasechangelog DATABASECHANGELOG = Databasechangelog.DATABASECHANGELOG;
@@ -44,6 +51,11 @@ public class Article extends SchemaImpl {
      * The table <code>article.DATABASECHANGELOGLOCK</code>.
      */
     public final Databasechangeloglock DATABASECHANGELOGLOCK = Databasechangeloglock.DATABASECHANGELOGLOCK;
+
+    /**
+     * The table <code>article.keywords</code>.
+     */
+    public final Keywords KEYWORDS = Keywords.KEYWORDS;
 
     /**
      * No further instances allowed
@@ -62,7 +74,9 @@ public class Article extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
             Articles.ARTICLES,
+            Categories.CATEGORIES,
             Databasechangelog.DATABASECHANGELOG,
-            Databasechangeloglock.DATABASECHANGELOGLOCK);
+            Databasechangeloglock.DATABASECHANGELOGLOCK,
+            Keywords.KEYWORDS);
     }
 }

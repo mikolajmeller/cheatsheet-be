@@ -1,3 +1,7 @@
 databaseChangeLog:
   - include:
-      file: migrations/001-create-table-articles.sql
+      file: migrations/001-create-table-categories.sql
+  - include:
+      file: migrations/002-create-table-articles.sql
+  - include:
+      file: migrations/003-create-table-keywords.sql

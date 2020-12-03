@@ -3,6 +3,7 @@ apply plugin: 'java'
 apply from: "${rootDir}/gradle/versions.gradle"
 apply from: "${rootDir}/gradle/tasks/GenerateDockerfile.gradle"
 apply from: "${rootDir}/gradle/tasks/GenerateJooq.gradle"
+apply from: "${rootDir}/gradle/tasks/GenerateDevDockerfile.gradle"
 
 sourceCompatibility = 11
 targetCompatibility = 11

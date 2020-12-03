@@ -5,6 +5,7 @@ package article.jooq.generated.article;
 
 
 import article.jooq.generated.article.tables.Articles;
+import article.jooq.generated.article.tables.Keywords;
 
 import org.jooq.Index;
 import org.jooq.OrderField;
@@ -22,5 +23,7 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index ARTICLES_IDX__ARTICLE__TITLE = Internal.createIndex(DSL.name("idx__article__title"), Articles.ARTICLES, new OrderField[] { Articles.ARTICLES.TITLE }, false);
+    public static final Index ARTICLES_ARTICLES__CATEGORY_ID = Internal.createIndex(DSL.name("articles__category_id"), Articles.ARTICLES, new OrderField[] { Articles.ARTICLES.CATEGORY_ID }, false);
+    public static final Index KEYWORDS_KEYWORDS__ARTICLE_ID = Internal.createIndex(DSL.name("keywords__article_id"), Keywords.KEYWORDS, new OrderField[] { Keywords.KEYWORDS.ARTICLE_ID }, false);
+    public static final Index KEYWORDS_KEYWORDS__NAME = Internal.createIndex(DSL.name("keywords__name"), Keywords.KEYWORDS, new OrderField[] { Keywords.KEYWORDS.NAME }, false);
 }
