@@ -1,5 +1,6 @@
 package article.article;
 
+import article.category.CategoryNotFound;
 import lombok.RequiredArgsConstructor;
 
 import javax.inject.Singleton;
@@ -15,6 +16,9 @@ public class ArticleService {
   }
 
   public int saveArticle(Article article) {
+    if (!storage.categoryExists(article.getCategoryId())) {
+      throw new CategoryNotFound();
+    }
     return storage.saveArticle(article);
   }
 }

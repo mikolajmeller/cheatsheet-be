@@ -7,6 +7,7 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
 import lombok.RequiredArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class CategoryApi {
   }
 
   @Post
-  public HttpResponse<Integer> createCategory(@Body("name") String name) {
+  public HttpResponse<Integer> createCategory(@Body("name") @NotEmpty String name) {
     return HttpResponse.ok(categoryService.createCategory(Category.builder().name(name).build()));
   }
 }

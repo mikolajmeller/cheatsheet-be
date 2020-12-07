@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static article.jooq.generated.article.Tables.ARTICLES;
+import static article.jooq.generated.article.Tables.CATEGORIES;
 
 @Singleton
 @RequiredArgsConstructor
@@ -28,6 +29,16 @@ public class ArticleStorage {
                     .content(record.getContent())
                     .categoryId(record.getCategoryId())
                     .build());
+  }
+
+  public boolean categoryExists(int categoryId) {
+    return configuration
+        .dsl()
+        .select(CATEGORIES.ID)
+        .from(CATEGORIES)
+        .where(CATEGORIES.ID.eq(categoryId))
+        .fetchOptional()
+        .isPresent();
   }
 
   public int saveArticle(Article article) {

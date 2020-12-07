@@ -1,3 +1,5 @@
 package article.article;
 
-public class ArticleNotFound extends RuntimeException {}
+import io.micronaut.http.exceptions.HttpException;
+
+public class ArticleNotFound extends HttpException {}

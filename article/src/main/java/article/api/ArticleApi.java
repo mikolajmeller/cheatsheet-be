@@ -7,6 +7,7 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
 import lombok.RequiredArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Controller("article")
@@ -25,11 +26,10 @@ public class ArticleApi {
 
   @Post
   public HttpResponse<Integer> createArticle(
-      @Body("title") @NotNull String title,
-      @Body("categoryId") @NotNull Integer categoryId,  // TODO validate against existing categories
+      @Body("title") @NotEmpty String title,
+      @Body("categoryId") @NotNull Integer categoryId,
       @Body("content") String content
   ) {
-
     return HttpResponse.ok(
         articleService.saveArticle(
             Article.builder().title(title).content(content).categoryId(categoryId).build()));
