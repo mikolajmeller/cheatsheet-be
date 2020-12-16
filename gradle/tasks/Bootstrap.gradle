@@ -38,6 +38,7 @@ class Bootstrap extends DefaultTask {
 
     void generateDatabaseScripts(String serviceName, Map config) {
         File templateFile = new File("${rootDir}/database/initServiceDatabase-template.sql")
+        new File("${rootDir}/database/init/").mkdir()
         File outputFile = new File("${rootDir}/database/init/${serviceName}.sql")
         new SimpleTemplateEngine()
                 .createTemplate(templateFile)
